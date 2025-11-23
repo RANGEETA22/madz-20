@@ -409,7 +409,7 @@ navigator.mediaDevices.getUserMedia({ audio:true })
     let meterPercent = Math.min(lowFreqAvg * 1.5, 100);
     blowMeterFill.style.width = meterPercent + '%';
 
-    if(lowFreqAvg >88){ 
+    if(lowFreqAvg >60){ 
         blowFrames++; 
         if(blowFrames > 20){ 
             flame.style.display='none';
@@ -457,3 +457,4 @@ function showVideo() {
 </script>
 </body>
 </html>
+
