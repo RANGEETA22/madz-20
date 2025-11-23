@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<audio id="bg-music" src="assets/background.mp3" loop></audio>
+<script>
+ const password = prompt("Enter the password to open the birthday site:");
+  if(password !== "Madhabi202225") {
+      alert("Wrong password! Bye!");
+      window.location.href = "https://www.google.com"; // redirect if wrong
+  }
+  // Get URL parameter
+  const params = new URLSearchParams(window.location.search);
+  const musicShouldPlay = params.get("music");
+
+  if (musicShouldPlay === "on") {
+      const bgMusic = document.getElementById("bg-music");
+
+      // Required for some browsers
+      bgMusic.addEventListener("canplay", () => {
+          bgMusic.volume = 0.3;
+          bgMusic.play().catch(err => console.log("Autoplay blocked:", err));
+      });
+  }
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barrio&family=Praise&display=swap" rel="stylesheet">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Praise&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Birthday Video</title>
+<style>
+  body { 
+    font-family: "Praise", system-ui; 
+    text-align: center; 
+    padding: 40px; 
+    background: #E1F8DC; 
+font-size: 2.0em; 
+color :#00796B;
+  }
+
+p {
+  max-width: 700px;          /* keeps lines short for readability */
+  margin: 30px auto;         /* center paragraph with spacing */
+  line-height: 1.6;          /* comfortable line spacing */
+  font-size: 1.2em;          
+  color: #2E7D32;            /* deep text color */
+  background: rgba(255, 255, 255, 0.2); /* subtle overlay for contrast */
+  padding: 20px;             
+  border-radius: 15px;       /* rounded corners */
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* subtle shadow */
+}
+
+.video-container video { 
+  width: 80%; 
+  max-width: 350px; 
+  border-radius: 15px; 
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2); /* subtle depth */
+  border: 6px solid #2E7D32; /* bold deep green border */
+  transition: transform 0.3s ease;
+}
+
+.video-container video:hover {
+  transform: scale(1.05); /* subtle zoom on hover */
+}
+ 
+</style>
+</head>
+<body>
+  <p>This video is made especially for you, for you to harness your badass-ness in you because you've got it in you bro!</p>
+  <div class="video-container">
+    <video controls>
+      <source src="assets/video.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+</body>
+</html>

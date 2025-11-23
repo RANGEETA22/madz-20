@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday Surprise</title>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+<script>
+ const password = prompt("Enter the password to open the birthday site:");
+  if(password !== "Madhabi202225") {
+      alert("Wrong password! Bye!");
+      window.location.href = "https://www.google.com"; // redirect if wrong
+  }
+  // Wait for the first click anywhere
+  document.addEventListener("click", function () {
+    const bgMusic = document.getElementById("bg-music");
+
+    // If music is paused, play it
+    if (bgMusic.paused) {
+      bgMusic.volume = 0.3;  // adjust volume (0.0 to 1.0)
+      bgMusic.play();
+    }
+  }, { once: true });  // runs only ONCE
+</script>
+<style>
+
+/* ====== Video ======*/
+.video-container video {
+  width: 300px;
+  border-radius: 15px;
+}
+/* ===== Global Styles ===== */
+body, html { margin:0; padding:0; font-family:'Roboto',sans-serif; scroll-behavior:smooth; background:#FFF8F0; color:#333; overflow-x:hidden; }
+h1,h2,h3{ text-align:center; margin:0; }
+
+/* ===== Sections ===== */
+section { width:100%; min-height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; padding:50px 20px; text-align:center; transition: all 1s ease; }
+.hidden { display:none; opacity:0; }
+.visible { opacity:1; }
+
+/* ===== Countdown Section ===== */
+#countdown-section { background:linear-gradient(135deg,#FFDEE9,#B5FFFC); position:relative; overflow:hidden; }
+#countdown { font-size:6em; color:#FF6F91; font-weight:bold; }
+#birthday-text { font-family:'Pacifico',cursive; font-size:3em; text-shadow:0 0 10px #FF6F91,0 0 20px #FFB6C1; opacity:0; transition: opacity 1.5s; }
+
+/* ===== Candle Section ===== */
+#candle-section { background:#2F4F4F; flex-direction:column; }
+.candle-container {
+    display: flex;
+    flex-direction: column;  /* stack candle, flame, instruction vertically */
+    align-items: center;     /* center horizontally */
+    gap: 15px;               /* space between elements */
+}
+.candle{ width:30px; height:100px; background:#FFD700; margin-bottom:20px; border-radius:5px; position:relative; }
+.flame{ width:20px; height:30px; background:radial-gradient(circle,#FF4500,#FFA500); border-radius:50%; position:absolute; top:-25px; left:50%; transform:translateX(-50%); animation:flicker 0.2s infinite alternate; }
+@keyframes flicker{ 0%{transform:translateX(-50%) scale(1);opacity:1;} 50%{transform:translateX(-50%) scale(1.1);opacity:0.8;} 100%{transform:translateX(-50%) scale(0.9);opacity:1;} }
+.blow-instruction { font-size:1.2em; color:#FF6F91; }
+
+/* ===== Blow Meter ===== */
+.blow-meter-container { width:200px; height:20px; background:#eee; border-radius:10px; margin-top:20px; overflow:hidden; }
+.blow-meter-fill { width:0%; height:100%; background:#FF6F91; border-radius:10px; transition: width 0.1s ease; }
+
+/* ===== Birthday Reveal + Fade-in ===== */
+/* ===== Birthday Reveal + Fade-in ===== */
+.fade-in { 
+    opacity:0; 
+    transform:translateY(20px); 
+    transition: all 1s ease; 
+}
+
+.fade-in.visible { 
+    opacity:1; 
+    transform:translateY(0); 
+}
+
+/* ===== Birthday Paragraph Styling ===== */
+#birthday-paragraph {
+    font-family: 'Comic Relief', system-ui;   
+    font-size: 1.5em;                         
+    font-weight: 700;                          
+    line-height: 1.8em;                        
+    color: #D1603D;                            
+    background: rgba(255, 248, 240, 0.9);     
+    padding: 30px 35px;                        
+    border-radius: 20px;                       
+    box-shadow: 0 8px 25px rgba(255,111,145,0.4); 
+    max-width: 800px;                          
+    margin: 30px auto;                         
+    text-align: justify;                        
+    transition: all 1s ease;                   
+}
+
+/* Optional: animation for paragraph */
+#birthday-paragraph.fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+#birthday-paragraph.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* ===== Reasons Section ===== */
+.reasons p { font-size:1.5em; margin:15px 0; background:rgba(255,255,255,0.6); padding:10px 20px; border-radius:15px; display:inline-block; }
+
+/* ===== Gallery ===== */
+.gallery { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:80px; justify-items:center; margin-top:30px; }
+.gallery img{ width:150px; height:200px; object-fit:cover; border:5px solid #fff; box-shadow:0 5px 15px rgba(0,0,0,0.1); border-radius:10px; transform:rotate(var(--rot)); }
+.gallery img:nth-child(odd){--rot:-5deg;} 
+.gallery img:nth-child(even){--rot:5deg;}
+
+/* ===== Rotating Frisbee Gallery ===== */
+.scene {
+  width: 400px;
+  height: 400px;
+  position: relative;
+  transform-style: preserve-3d;
+  animation: rotateFrisbee 40s linear infinite;
+  margin: 0 auto;
+}
+
+.photo {
+  width: 350px;
+  height: 400px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -60px 0 0 -60px; /* center */
+  border-radius: 15px;
+  overflow: hidden;
+  transform: rotateY(var(--angle)) translateZ(500px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@keyframes rotateFrisbee {
+  from { transform: rotateY(0deg); }
+  to { transform: rotateY(360deg); }
+}
+
+/* ===== Funniest Moments ===== */
+.funniest{ display:flex; flex-direction:column; gap:15px; padding: 20px 60px;  /* reduce top/bottom padding */
+    margin-bottom: 5px; /* reduce space before next section */ }
+.funniest audio{ outline:none; }
+
+/* ===== Divider ===== */
+.audio-divider {
+    width: 60%; /* length of the line */
+    height: 4px; /* thickness */
+    background: linear-gradient(90deg, #FFD700, #FFA500); /* gold to soft orange gradient */
+    margin: 20px auto; /* space above and below */
+    border-radius: 10px; /* soft rounded edges */
+}
+
+/* ===== Fun teaser ===== */
+.fun-teaser {
+    font-family: 'Pacifico', cursive; /* playful font */
+    font-size: 1.8em;
+    color: #FF6347; /* pink to match your theme */
+    text-align: center;
+    margin: 90 px 0; /* spacing above/below */
+    animation: bounce 2s infinite; /* subtle floating animation */
+}
+
+/* Simple bounce animation */
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+
+
+/* ===== Surprise Boxes ===== */
+.surprise-boxes{ display:flex; flex-wrap:wrap;   gap:30px;
+    justify-content:center;
+    margin-top:20px; /* was 60px before */
+}
+.box {
+    background: linear-gradient(135deg, #FF6F91, #FFB6C1); /* gradient color */
+    color: white; /* text color */
+    padding: 30px;
+    width: 160px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(255,111,145,0.7); /* glowy shadow */
+    font-weight: bold;
+    font-size: 1.2em;
+    transition: all 0.3s ease;
+    animation: pulse 2s infinite;
+}
+
+.box:hover {
+    transform: scale(1.2) rotate(-2deg); /* pop + slight tilt */
+    box-shadow: 0 10px 30px rgba(255,111,145,0.9);
+    background: linear-gradient(135deg, #FFB6C1, #FF6F91); /* swap gradient on hover */
+}
+
+/* Pulsing animation */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* ===== Letter ===== */
+.letter{ max-width:600px; font-size:1.3em; line-height:1.6em; font-family:'Pacifico',cursive; background:rgba(255,248,240,0.8); padding:30px; border-radius:20px; box-shadow:0 5px 15px rgba(0,0,0,0.1); }
+
+/* ===== Confetti ===== */
+.confetti { position:absolute; width:100%; height:100%; pointer-events:none; overflow:hidden; }
+.confetti-piece{ position:absolute; width:10px; height:10px; border-radius:50%; opacity:0.9; animation:fall linear forwards; }
+@keyframes fall { to { transform: translate(var(--x),100vh) rotate(var(--rotate)); opacity:0; } }
+
+/* ==== sticker====*/
+/* ===== Stickers on the sides of audio ===== */
+.funniest {
+  position: relative;
+  width: 100%;  /* full width so stickers are visible */
+  padding: 20px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sticker-side {
+  position: absolute;
+  top: 12.5%;
+  transform: translateY(-50%);
+  width: 80px;
+  height: 90px;
+z-index: 10; 
+}
+
+.sticker-side.left {
+  left: 400px;   /* distance from left */
+}
+
+.sticker-side.right {
+  right: 410px;  /* distance from right */
+}
+
+
+</style>
+</head>
+<body>
+<!-- ===== music ===== -->
+<audio id="bg-music" src="assets/background.mp3" loop autoplay controls></audio>
+
+<!-- ===== Countdown ===== -->
+<section id="countdown-section">
+  <div id="countdown">3</div>
+</section>
+
+<!-- ===== Candle Section ===== -->
+<section id="candle-section" class="hidden">
+  <div class="candle-container">
+    <div class="candle">
+      <div class="flame"></div>
+    </div>
+    <p class="blow-instruction">Blow on the microphone to blow it out! 🎂</p>
+    <div class="blow-meter-container">
+      <div class="blow-meter-fill"></div>
+    </div>
+    <div class="confetti"></div>
+  </div>
+</section>
+
+<!-- ===== Birthday Reveal + Scrollable Content ===== -->
+<section id="birthday-section" class="hidden">
+  <h1 id="birthday-text">🎉 Happy Birthday, Madhabi! 🎉</h1>
+  
+  <!-- Styled Birthday Paragraph -->
+  <p id="birthday-paragraph" class="fade-in">
+    Starting right from the polite smiles and the awkward glances we shared back then to all the laughter and the countless memories we’ve made so far, today is all about celebrating you—the incredible person you’ve become. Twenties are regarded to be such a big thing, but not if you chase them with curiosity instead of fear. It’s like a blank canvas, and I know you’re incredibly good at painting whatever you want—just like how you have the power to paint your life the way you want it to be. Continue being the amazing person you are—keep growing, keep learning, and never forget how much you’re loved. Happy 20th!!
+  </p>
+
+  <!-- ===== Reasons Section ===== -->
+  <section id="amazing-section" class="reasons">
+    <h2>♡ Why You’re Amazing ♡</h2>
+    <p class="fade-in"> You make everything so much more fun</p>
+    <p class="fade-in"> You're very understanding. </p>
+    <p class="fade-in"> You put in so much efforts in your relationships.</p>
+    <p class="fade-in"> You know what to say at the right place and at the right time. </p>
+    <p class="fade-in"> Late-night conversations with you are the best.</p>
+  </section>
+</section>
+<!-- Rotating Table Gallery -->
+<section class="gallery-section">
+  <h2>A gallery of your best pictures.</h2>
+  <div class="scene">
+    <div class="photo" style="--angle:0deg;"><img src="assets/photo1.jpeg" alt="Memory 1"></div>
+    <div class="photo" style="--angle:45deg;"><img src="assets/photo2.jpeg" alt="Memory 2"></div>
+    <div class="photo" style="--angle:90deg;"><img src="assets/photo3.jpeg" alt="Memory 3"></div>
+    <div class="photo" style="--angle:135deg;"><img src="assets/photo4.jpeg" alt="Memory 4"></div>
+    <div class="photo" style="--angle:180deg;"><img src="assets/photo5.jpeg" alt="Memory 5"></div>
+    <div class="photo" style="--angle:225deg;"><img src="assets/photo6.jpeg" alt="Memory 6"></div>
+    <div class="photo" style="--angle:270deg;"><img src="assets/photo7.jpeg" alt="Memory 7"></div>
+    <div class="photo" style="--angle:315deg;"><img src="assets/photo8.jpeg" alt="Memory 8"></div>
+
+  </div>
+</section>
+  <section class="funniest">
+    <h2>Top 5 Funniest Things You’ve Said: </h2>
+    <audio controls src="assets/funny1.ogg"></audio>
+    <audio controls src="assets/funny2.ogg"></audio>
+    <audio controls src="assets/funny3.ogg"></audio>
+    <audio controls src="assets/funny4.ogg"></audio>
+    <audio controls src="assets/funny5.ogg"></audio>
+<!-- Stickers on the sides -->
+  <img src="assets/sticker.jpeg" alt="Left Sticker" class="sticker-side left">
+  <img src="assets/sticker.jpeg" alt="Right Sticker" class="sticker-side right">
+
+ <!-- Divider -->
+<div class="audio-divider"></div>
+  <p class="fun-teaser">  Now there's something I want to show you:<br>
+  ↓<br><br>
+  ↓<br><br>
+  ↓<br><br>
+↓<br><br>
+↓<br><br>
+↓<br><br>
+↓<br><br>
+  ↓</p>
+</section>
+
+
+</section>
+  </section>
+
+  <section class="surprise-boxes">
+    <div class="box" onclick="showVideo()">🎁 Open Me</div>
+
+</section>
+
+<section id="video-section" class="hidden">
+  <h1>Your Special Birthday Video:</h1>
+<p> This video edit is made especially for you to harness the badass-ness in you, because you are one. Let's go my guy!!!! </p>
+  <div class="video-container">
+    <video controls>
+      <source src="assets/video.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+</section>
+
+<script>
+/* ===== Countdown ===== */
+let countdown = document.getElementById('countdown');
+let count = 3;
+let countdownInterval = setInterval(()=>{
+  count--;
+  if(count>0){ countdown.innerText = count; }
+  else{
+    clearInterval(countdownInterval);
+    document.getElementById('countdown-section').classList.add('hidden');
+    document.getElementById('candle-section').classList.remove('hidden');
+    createConfetti();
+  }
+},1000);
+
+/* ===== Confetti ===== */
+function createConfetti(){
+  const confettiContainer = document.querySelector('#candle-section .confetti');
+  const colors = ['#FF6F91','#FFD93D','#6BCB77','#4D96FF','#FF6B6B'];
+  for(let i=0;i<150;i++){
+    const confetti = document.createElement('div');
+    confetti.classList.add('confetti-piece');
+    confetti.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
+    const size = Math.random()*10+5;
+    confetti.style.width=size+'px';
+    confetti.style.height=size+'px';
+    confetti.style.left=Math.random()*100+'vw';
+    confetti.style.setProperty('--rotate',Math.random()*360+'deg');
+    const xOffset = (Math.random()*100-50)+'px';
+    confetti.style.setProperty('--x',xOffset);
+    confettiContainer.appendChild(confetti);
+    setTimeout(()=>confetti.remove(),5000+Math.random()*2000);
+  }
+}
+
+/* ===== Candle Blow Detection + Blow Meter ===== */
+navigator.mediaDevices.getUserMedia({ audio:true })
+.then(stream=>{
+  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  const analyser = audioContext.createAnalyser();
+  const mic = audioContext.createMediaStreamSource(stream);
+  mic.connect(analyser);
+  analyser.fftSize=512;
+  const dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+  const flame = document.querySelector('.flame');
+  const blowMeterFill = document.querySelector('.blow-meter-fill');
+  let blowFrames = 0;
+
+  function detectBlow(){
+    analyser.getByteFrequencyData(dataArray);
+
+    let lowFreqSum = 0;
+    for(let i=0;i<dataArray.length/4;i++) lowFreqSum += dataArray[i];
+    let lowFreqAvg = lowFreqSum / (dataArray.length/2);
+
+    let meterPercent = Math.min(lowFreqAvg * 1.5, 100);
+    blowMeterFill.style.width = meterPercent + '%';
+
+    if(lowFreqAvg >88){ 
+        blowFrames++; 
+        if(blowFrames > 20){ 
+            flame.style.display='none';
+            document.querySelector('.blow-instruction').innerText="🎉 Candle blown! 🎉";
+const bgMusic = document.getElementById("bg-music");
+    if (bgMusic.paused) {
+        bgMusic.volume = 0.3; // optional
+        bgMusic.play();
+    }
+
+            setTimeout(()=>{
+              document.getElementById('candle-section').classList.add('hidden');
+              document.getElementById('birthday-section').classList.remove('hidden');
+              document.getElementById('birthday-text').style.opacity=1;
+            },800);
+            return;
+        }
+    } else { blowFrames = 0; }
+
+    requestAnimationFrame(detectBlow);
+  }
+  detectBlow();
+})
+.catch(err=>{
+  console.error('Mic access denied',err);
+  document.querySelector('.blow-instruction').innerText="Mic not accessible 🎂";
+});
+
+/* ===== Fade-in Sections ===== */
+const faders = document.querySelectorAll('.fade-in');
+const appearOptions = { threshold:0.5 };
+const appearOnScroll = new IntersectionObserver((entries, observer)=>{
+entries.forEach(entry=>{
+  if(entry.isIntersecting){ entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+});
+}, appearOptions);
+faders.forEach(fader => appearOnScroll.observe(fader));
+/* ===== Open me box ===== */
+function showVideo() {
+    window.location.href = 'video.html'; // Make sure video.html is in the same folder
+}
+
+
+
+</script>
+</body>
+</html>
